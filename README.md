@@ -12,6 +12,8 @@ It’s a simple console window with text output. You can see an example in the s
 
 <img width="862" height="628" alt="view" src="https://github.com/user-attachments/assets/6d629fcf-1139-4176-90f9-2a9f4608d576" />
 
-## Requirements
+## Notes
 
-- .NET 10
+- Built with C# and requires .NET 10.
+- Processing time depends on the size of the log file.
+- For large files (1GB+), parsing may take a while and the console may not update immediately.
