@@ -1,6 +1,6 @@
 using System;
 
-namespace cstest2;
+namespace poe2_log_parser;
 
 public readonly struct AREAS
 {
@@ -28,7 +28,7 @@ public readonly struct AREAS
     public const string BOSS_BODACH = "MapUberBoss_Ritual";
     public const string BOSS_RITAUAL = "RitualLeagueBoss"; //The King in the Mists
     public const string BOSS_HIVE = "ChayulaLeague_TowerBoss"; //tul and esh
-    public const string BOSS_XESHT = "BreachDomain_01"; 
+    public const string BOSS_XESHT = "BreachDomain_01";
     public const string BOSS_ZAROKH = "SANCTUM_4"; //Zarokh, the Temporal
     public const string BOSS_TRIALMASTER = "G3_10";
 
@@ -37,7 +37,7 @@ public readonly struct AREAS
     public const string ABYSS_KULEMAK = "Abyss_Pinnacle";
     public const string ABYSS_BOSS = "Abyss_Boss";
     public const string ABYSS_DEPTHS = "Abyss_Depths";
-    
+
 
 
     public const string EXPEDITION_BOSS_ABERRATION = "MapUberBoss_FallenStar";
@@ -47,8 +47,10 @@ public readonly struct AREAS
     public const string EXPEDITION_BOSS_OLROTH = "ExpeditionSubArea_OlrothBoss";
     public const string EXPEDITION_LOGBOOK = "ExpeditionLogBook";
 
-    public static string getReadableName(String name) {
-        switch (name) {
+    public static string getReadableName(String name)
+    {
+        switch (name)
+        {
             case ANOMALY_JADE:
                 return "Jade";
             case ANOMALY_MANSION:
@@ -107,7 +109,7 @@ public readonly struct AREAS
                 return "Abyss Depth";
             default:
                 return "unk";
-        } 
+        }
     }
 
 }

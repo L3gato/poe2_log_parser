@@ -1,6 +1,6 @@
 using System;
 
-namespace cstest2;
+namespace poe2_log_parser;
 
 public class LogEntry
 {
