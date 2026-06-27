@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Immutable;
+using System.Diagnostics;
 
 namespace poe2_log_parser;
 
@@ -52,15 +53,7 @@ public class Logic
         var list = getExpedition();
 
         var output = $"Total: {list.Count}\nBy Name: {string.Join(" ",
-            list.Select(e =>
-            {
-                if (e.AreaName.StartsWith(AREAS.EXPEDITION_LOGBOOK))
-                {
-                    e.AreaName = AREAS.EXPEDITION_LOGBOOK;
-                }
-                return e;
-            })
-                .GroupBy(e => e.AreaName)
+            list.GroupBy(e => e.AreaName)
                 .Select(g => $"[{AREAS.getReadableName(g.Key)} -> {g.ToList().Count()}]")
         )}";
 
@@ -70,6 +63,14 @@ public class Logic
     private List<LogEntry> getExpedition()
     {
         return _dict.Values
+            .Select(e =>
+            {
+                if (e.AreaName.StartsWith(AREAS.EXPEDITION_LOGBOOK))
+                {
+                    e.AreaName = AREAS.EXPEDITION_LOGBOOK;
+                }
+                return e;
+            })
             .Where(filterExpedition)
             .ToList();
     }
