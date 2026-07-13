@@ -25,7 +25,7 @@ jobs:
       - name: Publish 
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
-          dotnet publish -c Release -p:Version="$VERSION"
+          dotnet publish -c Release -p:Version="$VERSION" -o ./publish
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
