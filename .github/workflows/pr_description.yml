@@ -21,6 +21,9 @@ jobs:
         with:
           script: |
             const pr = context.payload.pull_request;
+
+            core.info(`PR body:\n${pr.body}`);
+
             const body = pr.body || "";
 
             const matches = [...body.matchAll(/#(\d+)/g)];
