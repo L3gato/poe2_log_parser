@@ -21,51 +21,60 @@ jobs:
         with:
           script: |
             const pr = context.payload.pull_request;
+            const originalBody = pr.body || "";
 
-            core.info(`PR body:\n${pr.body}`);
+            const query = `
+              query($owner: String!, $repo: String!, $number: Int!) {
+                repository(owner: $owner, name: $repo) {
+                  pullRequest(number: $number) {
+                    closingIssuesReferences(first: 20) {
+                      nodes {
+                        number
+                        title
+                        url
+                      }
+                    }
+                  }
+                }
+              }
+            `;
 
-            const body = pr.body || "";
+            const result = await github.graphql(query, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              number: pr.number
+            });
 
-            const matches = [...body.matchAll(/#(\d+)/g)];
+            const issues =
+              result.repository.pullRequest.closingIssuesReferences.nodes;
 
-            if (matches.length === 0) {
+            if (issues.length === 0) {
               core.info("No linked issues found");
               return;
             }
 
-            const issues = [];
+            const issueSection = [
+              "",
+              "---",
+              "",
+              "## 🔗 Linked issues",
+              "",
+              ...issues.map(
+                issue => `- #${issue.number} [${issue.title}](${issue.url})`
+              )
+            ].join("\n");
 
-            for (const match of matches) {
-              const issueNumber = Number(match[1]);
-
-              const { data: issue } = await github.rest.issues.get({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: issueNumber
-              });
-
-              issues.push({
-                number: issue.number,
-                title: issue.title
-              });
+            // Avoid adding the section multiple times
+            if (originalBody.includes("## 🔗 Linked issues")) {
+              core.info("Linked issues section already exists");
+              return;
             }
-
-            const issueSummary = issues
-              .map(issue => `- #${issue.number} ${issue.title}`)
-              .join("\n");
-
-            const newBody = `${body}
-
-            ---
-
-            ## Related issues
-
-            ${issueSummary}
-            `;
 
             await github.rest.pulls.update({
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: pr.number,
-              body: newBody
+              body: originalBody + issueSection
             });
+
+            core.info(`Added ${issues.length} linked issues`);
