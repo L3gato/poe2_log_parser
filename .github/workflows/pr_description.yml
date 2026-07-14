@@ -53,8 +53,7 @@ jobs:
               return;
             }
 
-            const labels = issues[0].labels
-              .map(label => typeof label === "string" ? label : label.name);
+            const labels = issues[0].labels.nodes.map(label => label.name);
 
             if (labels.length > 0) {
               await github.rest.issues.setLabels({
