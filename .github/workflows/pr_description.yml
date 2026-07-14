@@ -52,12 +52,12 @@ jobs:
 
             const newBody = `${body}
 
----
+            ---
 
-## Related issues
+            ## Related issues
 
-${issueSummary}
-`;
+            ${issueSummary}
+            `;
 
             await github.rest.pulls.update({
               owner: context.repo.owner,
