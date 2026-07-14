@@ -60,7 +60,7 @@ jobs:
               "## 🔗 Linked issues",
               "",
               ...issues.map(
-                issue => `- #${issue.number} [${issue.title}](${issue.url})`
+                issue => `- #${issue.number}`
               )
             ].join("\n");
 
