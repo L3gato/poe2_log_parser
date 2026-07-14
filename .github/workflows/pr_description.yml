@@ -53,6 +53,18 @@ jobs:
               return;
             }
 
+            const labels = issue.labels
+              .map(label => typeof label === "string" ? label : label.name);
+
+            if (labels.length > 0) {
+              await github.rest.issues.setLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                labels
+              });
+            }
+
             const issueSection = [
               "",
               "---",
