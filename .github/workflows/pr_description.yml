@@ -53,7 +53,7 @@ jobs:
               return;
             }
 
-            const labels = issue.labels
+            const labels = issues[0].labels
               .map(label => typeof label === "string" ? label : label.name);
 
             if (labels.length > 0) {
