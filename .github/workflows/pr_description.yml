@@ -53,9 +53,9 @@ jobs:
               return;
             }
 
-            core.info("\n\n ${issues[0]} \n\n");
+            core.info(`\n\n ${issues[0]} \n\n`);
 
-            const labels = issues[0].nodes.labels.map(label => label.name);
+            const labels = issues[0].labels.map(label => label.name);
 
             if (labels.length > 0) {
               await github.rest.issues.setLabels({
