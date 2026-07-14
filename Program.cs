@@ -3,6 +3,8 @@ using poe2_log_parser;
 
 internal class Program
 {
+    private static readonly DateTime lastLeagueStartDate = new DateTime(2026, 5, 29);
+
     private static void Main(string[] args)
     {
         using var stream = new FileStream(
@@ -38,10 +40,14 @@ internal class Program
             if (match.Success)
             {
                 double seed = double.TryParse(match.Groups["AreaSeed"].Value, out var tpSeed) ? tpSeed : -1;
+                DateTime date = DateTime.Parse(match.Groups["AreaDate"].Value);
+
+                if (date < lastLeagueStartDate) 
+                    continue;
 
                 var entry = new LogEntry
                 {
-                    Date = DateTime.Parse(match.Groups["AreaDate"].Value),
+                    Date = date,
                     AreaName = match.Groups["AreaName"].Value,
                     AreaLevel = int.TryParse(match.Groups["AreaLevel"].Value, out var tpLevel) ? tpLevel : -1,
                     Seed = seed
